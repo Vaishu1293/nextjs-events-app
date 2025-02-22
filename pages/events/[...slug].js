@@ -4,13 +4,26 @@ import ResultsTitle from '../../components/events/results-title';
 import ErrorAlert from '../../components/events/error-alert';
 import Button from "../../components/ui/button";
 import { getFilteredEvents } from "../../helpers/api-util";
+import Head from "next/head";
 
 export default function FilteredEventsPage(props) {
+    const pageHeadData = (
+        <Head>
+            <title>Filtered Events</title>
+            <meta name="description" content={`All events for ${props.date.month}/${props.date.year}.`} />
+        </Head>
+    );
     if (!props.events) {
-        return <p className="center">Loading...</p>
+        return (
+            <Fragment>
+                {pageHeadData}
+                <p className="center">Loading...</p>
+            </Fragment>
+        );
     }
     if (props.hasError) {
         return (<Fragment>
+            {pageHeadData}
             <ErrorAlert>
                 <p>
                     Invalid filter please adjust your values.
@@ -22,6 +35,7 @@ export default function FilteredEventsPage(props) {
     if (!filteredEvents || filteredEvents.length === 0) {
         return (
             <Fragment>
+                {pageHeadData}
                 <ErrorAlert>
                     <p>No events found for the chosen filter!</p>
                 </ErrorAlert>
@@ -33,6 +47,7 @@ export default function FilteredEventsPage(props) {
     }
     const date = new Date(props.date.year, props.date.month - 1);
     return (<Fragment>
+        {pageHeadData}
         <ResultsTitle date={date} />
         <EventList items={filteredEvents} />
     </Fragment>);

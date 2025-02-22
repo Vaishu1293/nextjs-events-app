@@ -3,11 +3,11 @@ import { Fragment } from "react";
 import EventSummary from '../../components/event-detail/event-summary';
 import EventLogistics from '../../components/event-detail/event-logistics';
 import EventContent from '../../components/event-detail/event-content';
-import ErrorAlert from "../../components/events/error-alert";
+import Head from "next/head";
 
-export default function EventsDetailPage(props){
+export default function EventsDetailPage(props) {
     const event = props?.selectedEvent;
-    if(!event){
+    if (!event) {
         return (
             <div className="center">
                 <p>Loading...</p>
@@ -15,12 +15,16 @@ export default function EventsDetailPage(props){
         );
     }
     return (<Fragment>
-        <EventSummary title={event.title}/>
-        <EventLogistics 
-        date={event.date} 
-        address={event.location} 
-        image={event.image} 
-        imageAlt={event.title} 
+        <Head>
+            <title>{event.title}</title>
+            <meta name="description" content="Find a lot of great events that allow you to evolve..." />
+        </Head>
+        <EventSummary title={event.title} />
+        <EventLogistics
+            date={event.date}
+            address={event.location}
+            image={event.image}
+            imageAlt={event.title}
         />
         <EventContent>
             <p>{event.description}</p>
